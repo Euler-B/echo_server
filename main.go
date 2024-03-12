@@ -1,9 +1,12 @@
-package main  
+package main
 
 import (
+
+	"github.com/Euler-B/echo_server/database"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"net/http"
+
+	"github.com/Euler-B/echo_server/handlers"
 )
 
 func main() {
@@ -15,14 +18,11 @@ func main() {
 	e.Use(middleware.Recover())
 
 	//routes
-	e.GET("/", hello)
+	e.GET("/", handlers.Hello)
+
+	// start database 
+	database.ConectDB()
 
 	//start server 
-	e.Logger.Fatal(e.Start(":1323"))
-}
-
-
-//handler
-func hello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hola mundo y ciudad de Merida")
+	e.Logger.Fatal(e.Start(":8080"))
 }
